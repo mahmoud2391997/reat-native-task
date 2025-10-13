@@ -1,3 +1,74 @@
+# 3 Pages Store - React Native Coding Challenge
+
+## Overview
+Minimal 3-screen app using Expo Router, Redux Toolkit, React Query, and MMKV.
+
+- Login with DummyJSON
+- Auto-lock after 10s idle or background; unlock via Biometrics or PIN `0000`
+- Products list and a Specific Category list
+- Query cache persisted with MMKV for offline/instant relaunch
+
+## Setup
+- Requirements: Node LTS, Expo CLI
+- Install deps:
+```bash
+npm install
+```
+- Start dev server:
+```bash
+npm run start
+```
+- Open:
+  - iOS: press `i`
+  - Android: press `a`
+  - Web: press `w`
+
+## Credentials
+- Demo user (default in login screen):
+  - Username: `emilys`
+  - Password: `emilyspass`
+
+## Superadmin
+- Superadmin usernames: `superadmin`, `admin`, `emilys`
+- As superadmin, Delete button shows on Products (uses simulated DELETE)
+
+## Chosen Category
+- Specific Category screen navigates from the Categories tab.
+- Example: open `smartphones` (or any category from the list).
+
+## Technology
+- React Native + Expo Router
+- Redux Toolkit for auth state
+- React Query for data fetching and caching
+- MMKV for persisted cache & token
+- NetInfo for offline banner
+
+## Features Mapping
+- Auth
+  - `POST /auth/login` stores token (MMKV)
+  - `GET /auth/me` validates/restores on launch
+- Lock & Biometrics/PIN
+  - Idle 10s + background lock via `useBiometricLock()`
+  - Overlay `BiometricLockOverlay` supports biometrics + PIN `0000`
+- Data
+  - Products: `GET /products?limit=20`
+  - Categories: `GET /products/categories`
+  - Category products: `GET /products/category/{name}`
+  - Superadmin delete: `DELETE /products/{id}` (optimistic UI)
+- Offline
+  - React Query cache persisted to MMKV and rehydrated
+  - `OfflineBanner` shows when disconnected
+
+## Trade-offs
+- Public DummyJSON can be flaky; added retry=1 and optimistic delete
+- Minimal UI; focused on clean architecture and required features
+- For web, removed credentialed requests to avoid CORS with wildcard origins
+
+## If I Had More Time
+- Better error UI (toasts/retry actions)
+- Tests (unit/integration) for hooks and reducers
+- More polished UI and accessibility
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
